@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Spotify Edge Function</title>
+</head>
+<body>
+  <h1>Testing Spotify Edge Function</h1>
+  <button onclick="testFunction()">Test Edge Function</button>
+  <pre id="result"></pre>
+
+  <script>
+    async function testFunction() {
+      const resultEl = document.getElementById('result');
+      resultEl.textContent = 'Testing...';
+      
+      try {
+        const response = await fetch('https://cqhdqnofdzfxtztsijgz.supabase.co/functions/v1/spotify-api', {
+          method: 'POST',
+          headers: {
+            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxaGRxbm9mZHpmeHR6dHNpamd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzA2OTI1NTAsImV4cCI6MjA0NjI2ODU1MH0.Ql6Uh8Ks-rvPQPRKGqRhQdDPPPjNVhOCbJpXlQZWvXw',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            endpoint: '/search?q=test&type=track&limit=1',
+            method: 'GET'
+          })
+        });
+
+        console.log('Response status:', response.status);
+        const data = await response.json();
+        console.log('Response data:', data);
+        
+        resultEl.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        console.error('Error:', error);
+        resultEl.textContent = 'Error: ' + error.message;
+      }
+    }
+  </script>
+</body>
+</html>

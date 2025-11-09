@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Spotify Edge Function</title>
+</head>
+<body>
+  <h1>Test Spotify Edge Function</h1>
+  <button onclick="testSpotify()">Test Spotify Search</button>
+  <pre id="result"></pre>
+
+  <script>
+    async function testSpotify() {
+      const resultEl = document.getElementById('result');
+      resultEl.textContent = 'Loading...';
+      
+      try {
+        const response = await fetch('https://cqhdqnofdzfxtztsijgz.supabase.co/functions/v1/spotify-api', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxaGRxbm9mZHpmeHR6dHNpamd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyMzUyNjEsImV4cCI6MjA3NzgxMTI2MX0.yvqBJKvKJOPdZPPBVZQmqWGQqJCPWKJqWGQqJCPWKJo',
+            'Content-Type': 'application/json',
+            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxaGRxbm9mZHpmeHR6dHNpamd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyMzUyNjEsImV4cCI6MjA3NzgxMTI2MX0.yvqBJKvKJOPdZPPBVZQmqWGQqJCPWKJqWGQqJCPWKJo'
+          },
+          body: JSON.stringify({
+            endpoint: '/search?q=karaoke&type=track&limit=5',
+            method: 'GET'
+          })
+        });
+
+        const data = await response.json();
+        resultEl.textContent = JSON.stringify(data, null, 2);
+        
+        console.log('Response status:', response.status);
+        console.log('Response data:', data);
+      } catch (error) {
+        resultEl.textContent = 'Error: ' + error.message;
+        console.error('Error:', error);
+      }
+    }
+  </script>
+</body>
+</html>
