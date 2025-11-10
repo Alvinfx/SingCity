@@ -5,21 +5,25 @@ import { useWallet } from '@/contexts/WalletContext';
 
 export default function Navbar() {
   const location = useLocation();
-  const { walletConnected, walletAddress, connectWallet } = useWallet();
+  const { walletConnected, walletAddress, connectWallet, disconnectWallet } = useWallet();
 
-  const handleConnectWallet = async () => {
-    try {
-      await connectWallet();
-    } catch (error) {
-      console.error('Error connecting wallet:', error);
-      alert('Failed to connect wallet. Please try again.');
+  const handleWalletClick = async () => {
+    if (walletConnected) {
+      disconnectWallet();
+    } else {
+      try {
+        await connectWallet();
+      } catch (error) {
+        console.error('Error connecting wallet:', error);
+        alert('Failed to connect wallet. Please try again.');
+      }
     }
   };
 
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#121212]/90 backdrop-blur-md border-b border-primary/20">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[,[object Object],]/90 backdrop-blur-md border-b border-primary/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2">
@@ -66,7 +70,7 @@ export default function Navbar() {
           </div>
 
           <Button 
-            onClick={handleConnectWallet}
+            onClick={handleWalletClick}
             className={`${
               walletConnected 
                 ? 'bg-accent hover:bg-accent/90' 

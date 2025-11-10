@@ -13,7 +13,6 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const [walletConnected, setWalletConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState('');
 
-  // Check for existing connection on mount
   useEffect(() => {
     const checkConnection = async () => {
       if (typeof window.ethereum !== 'undefined') {
@@ -34,7 +33,6 @@ export function WalletProvider({ children }: { children: ReactNode }) {
 
     checkConnection();
 
-    // Listen for account changes
     if (window.ethereum) {
       const handleAccountsChanged = (...args: unknown[]) => {
         const accounts = args[0] as string[];
