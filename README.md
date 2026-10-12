@@ -1,69 +1,48 @@
-# React + TypeScript + Vite
+# SingCity
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+SingCity is a browser-based karaoke project built with React and TypeScript. It brings song search, lyrics, microphone recording, and wallet-connected uploads into one interface.
 
-Currently, two official plugins are available:
+## Live App
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+https://singcity.vercel.app
 
-## Expanding the ESLint configuration
+## What It Includes
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Song search through a Supabase-hosted Spotify proxy, with demo songs when the request fails
+- YouTube playback and karaoke track lookup
+- Lyrics lookup and support for user-uploaded LRC files
+- Microphone recording with RecordRTC and audio visualization with WaveSurfer
+- Wallet connection and recording uploads through Irys
+- A profile page for playing recordings and copying their links
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+React 19, TypeScript, Vite, React Router, Tailwind CSS, Radix UI, Framer Motion, Supabase, Ethers, Irys, RecordRTC, and WaveSurfer.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Run Locally
+
+Install pnpm, then run:
+
+```bash
+pnpm install
+pnpm dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+For a production build and local preview:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm build
+pnpm preview
 ```
+
+## Service Configuration
+
+Song search uses the Supabase Spotify proxy. Set up the Supabase connection and configure Spotify credentials in the backend environment. YouTube lookup and optional lyrics providers require their own configuration. See [the deployment guide](DEPLOYMENT_GUIDE.md) and [YouTube integration notes](YOUTUBE_INTEGRATION.md) for the existing setup details.
+
+Recording requires microphone permission. Uploads require a compatible wallet.
+
+## Current Implementation
+
+The uploader is configured for Irys devnet. Profile details and recording references are stored in the current browser's local storage.
+
+This repository is a portfolio development project. External music, lyrics, and upload services depend on their configuration and availability.
